@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import ingresoReporte from './Components/ingresoReporte';
+import IngresoReporte from './Components/ingresoReporte';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ingresoReporte />
+    <IngresoReporte />
   </React.StrictMode>,
   document.getElementById('root')
 );
