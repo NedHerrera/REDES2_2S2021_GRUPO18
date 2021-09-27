@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container, Col, Row, Card } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 
 function IngresoReporte() {
@@ -21,33 +21,52 @@ function IngresoReporte() {
                 console.log(response);
             }
         );*/
-        console.log(carnet);
+        console.log("carnet: " + carnet);
+        console.log("nombre: " + nombre);
+        console.log("curso: " + curso);
+        console.log("reporte: " + reporte);
     }
 
-    useEffect( () => {
+    /*useEffect( () => {
         console.log(carnet)
     }, [carnet] ) 
 
     useEffect( () => {
         console.log(nombre)
-    }, [nombre] )
+    }, [nombre] )*/
 
     return (
-        <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>carnet</Form.Label>
-                <Form.Control type="text" placeholder="carnet" value={carnet} onChange={event => setCarnet(event.target.value)} />
-                <Form.Label>nombre</Form.Label>
-                <Form.Control type="text" placeholder="nombre" value={nombre} onChange={event => setNombre(event.target.value)} />
-                <Form.Label>curso</Form.Label>
-                <Form.Control type="text" placeholder="curso" value={curso} onChange={event => setCurso(event.target.value)} />
-                <Form.Label>Cuerpo de reporte</Form.Label>
-                <Form.Control type="text" placeholder="reporte" value={reporte} onChange={event => setReporte(event.target.value)} />
-            </Form.Group>
-            <Button variant="primary" onClick={ enviar }>
-                Submit
-            </Button>
-        </Form>
+        <div>
+            <br /> 
+            <Container>
+                <Row>
+                    <Col></Col>
+                    <Col xs={6}>
+                        <Card border="secondary">
+                            <Card.Header> <h2>Ingreso de reportes</h2> </Card.Header>
+                            <Card.Body>
+                                <Form>
+                                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                                        <Form.Label><Card.Title>Ingrese el carnet</Card.Title></Form.Label>
+                                        <Form.Control type="text" placeholder="carnet" value={carnet} onChange={event => setCarnet(event.target.value)} />
+                                        <Form.Label><br /> <Card.Title>Ingrese el nombre</Card.Title></Form.Label>
+                                        <Form.Control type="text" placeholder="nombre" value={nombre} onChange={event => setNombre(event.target.value)} />
+                                        <Form.Label><br /> <Card.Title>Ingrese el curso</Card.Title></Form.Label>
+                                        <Form.Control type="text" placeholder="curso" value={curso} onChange={event => setCurso(event.target.value)} />
+                                        <Form.Label><br /> <Card.Title>Ingrese el cuerpo de report</Card.Title></Form.Label>
+                                        <Form.Control as="textarea" placeholder="reporte" rows={3} value={reporte} onChange={event => setReporte(event.target.value)} />
+                                    </Form.Group>
+                                    <Button variant="primary" onClick={ enviar }>
+                                        Ingresar
+                                    </Button>
+                                </Form>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col></Col>
+                </Row>
+            </Container>
+        </div>
     );
 }
 
