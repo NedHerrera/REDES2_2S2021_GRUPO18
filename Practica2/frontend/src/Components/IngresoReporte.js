@@ -3,15 +3,6 @@ import { Form, Button, Container, Col, Row, Card } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 
 function IngresoReporte() {
-<<<<<<< Updated upstream:Practica2/frontend/src/Components/ingresoReporte.js
-=======
-  return (
-    <Form>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
-        </Form.Group>
->>>>>>> Stashed changes:Practica2/frontend/src/Components/IngresoReporte.js
 
     const [carnet, setCarnet] = useState('');
     const [nombre, setNombre] = useState('');
