@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import {Navbar, Nav, Container, } from 'react-bootstrap'
+import { BrowserRouter as Router, Switch, Route, Link,  Redirect } from 'react-router-dom'
+import IngresoReporte from './Components/IngresoReporte';
+import ListaReporte from './Components/ListaReporte';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+
+<Navbar bg="dark" variant="dark">
+    <Container>
+    <Navbar.Brand >DTT USAC</Navbar.Brand>
+    <Nav className="me-auto">
+       <Link className="nav-link" to="/ingresoreporte">Ingreso de Reportes</Link>
+       <Link className="nav-link" to="/listareporte">Listado Reportes</Link>
+    </Nav>
+    </Container>
+  </Navbar>
+
+
+
+
+
+    <Switch>
+        <Redirect exact from="/" to="/ingresoreporte" />
+        <Route path="/ingresoreporte">
+            <IngresoReporte/>
+        </Route>
+        <Route path="/listareporte">
+            <ListaReporte />
+        </Route>
+       
+
+
+    </Switch>
+</Router>
   );
 }
 
