@@ -1,11 +1,24 @@
-version: "3.7"
+version: "3.5"
 
 services:
+  loadbalancer:
+    build: ./nginx
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - api-201602625
+      - api-201602986
+      - api-201602870
+      - api-199911132
+    networks:
+      - redes2net
+
   mongoservice:
     image : mongo:latest
     container_name: mongoservice  
     volumes:
-      - C:/mongo/database:/data/db
+      - ./mongo/database:/data/db
     ports:
       - 27017:27017
     restart: unless-stopped
@@ -99,7 +112,7 @@ services:
       - db_retry_time=2000
     networks:
       - redes2net
-
+  
 networks:
   redes2net:
     driver: bridge
