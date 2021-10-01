@@ -12,13 +12,14 @@ services:
       - api-201602870
       - api-199911132
     networks:
-      - redes2net
+      - service_network
+      - frontend_network
 
   mongoservice:
     image : mongo:latest
     container_name: mongoservice  
     volumes:
-      - ./mongo/database:/data/db
+      - /home/data/db:/data/db
     ports:
       - 27017:27017
     restart: unless-stopped
