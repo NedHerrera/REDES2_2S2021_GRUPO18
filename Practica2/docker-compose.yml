@@ -23,7 +23,8 @@ services:
       - 27017:27017
     restart: unless-stopped
     networks:
-      - redes2net
+      - db_network
+      - service_network
 
   api-201602625:
     container_name: api-201602625
@@ -36,6 +37,8 @@ services:
      - 3001:3001
     links:
       - mongoservice
+    depends_on:
+      - mongoservice
     restart: unless-stopped
     environment:
       - FIRMA=201602625
@@ -45,7 +48,8 @@ services:
       - MONGO_PORT=27017
       - db_retry_time=2000
     networks:
-      - redes2net
+      - service_network
+      - db_network
 
   api-201602986:
     container_name: api-201602986
@@ -58,6 +62,8 @@ services:
      - 3002:3002
     links:
       - mongoservice
+    depends_on:
+      - mongoservice
     restart: unless-stopped
     environment:
       - FIRMA=201602986
@@ -67,7 +73,8 @@ services:
       - MONGO_PORT=27017
       - db_retry_time=2000
     networks:
-      - redes2net
+      - db_network
+      - service_network
 
   api-201602870:
     container_name: api-201602870
@@ -80,6 +87,8 @@ services:
      - 3003:3003
     links:
       - mongoservice
+    depends_on:
+      - mongoservice
     restart: unless-stopped
     environment:
       - FIRMA=201602870
@@ -89,7 +98,8 @@ services:
       - MONGO_PORT=27017
       - db_retry_time=2000
     networks:
-      - redes2net
+      - db_network
+      - service_network
 
   api-199911132:
     container_name: api-199911132
@@ -102,6 +112,8 @@ services:
      - 3004:3004
     links:
       - mongoservice
+    depends_on:
+      - mongoservice
     restart: unless-stopped
     environment:
       - FIRMA=199911132
@@ -111,8 +123,30 @@ services:
       - MONGO_PORT=27017
       - db_retry_time=2000
     networks:
-      - redes2net
-  
+      - db_network
+      - service_network
+
 networks:
   redes2net:
     driver: bridge
+  
+  db_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 10.10.18.0/24
+       
+  service_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 172.35.78.0/24
+       
+  frontend_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 192.168.58.0/24
