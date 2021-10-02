@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Container, Col, Row, Card } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { axios } from 'axios';
+import axios  from 'axios';
 
 function IngresoReporte() {
 
