@@ -12,7 +12,7 @@ function IngresoReporte() {
 
     const enviar = async() => { 
         //const res = await axios.post(`http://34.125.190.196:8080/api/create/reporte`, {
-        const res = await axios.post(`/api/create/reporte`, {    
+        const res = await axios.post(`/api/api/create/reporte`, {    
             carnet:carnet,
             nombre:nombre, 
             curso:curso, 
