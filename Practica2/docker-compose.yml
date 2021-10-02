@@ -10,6 +10,8 @@ services:
         - "3000:3000"
     links:
       - loadbalancer
+    depends_on:
+      - frontservice
     networks:
       - service_network
       - frontend_network
@@ -20,7 +22,6 @@ services:
       - "8080:8080"
     restart: always
     depends_on:
-      - frontservice
       - api-201602625
       - api-201602986
       - api-201602870
