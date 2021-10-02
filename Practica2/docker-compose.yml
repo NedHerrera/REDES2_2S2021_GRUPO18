@@ -3,7 +3,6 @@ version: "3.5"
 services:
 
   frontservice:
-    stdin_open: true
     build:
       context: ./frontend
       dockerfile: Dockerfile
