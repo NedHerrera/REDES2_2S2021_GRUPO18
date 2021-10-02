@@ -9,7 +9,8 @@ services:
     ports:
         - "3000:3000"
     volumes:
-        - ./src:/app/src
+        - "/app/node_modules"
+        - "./:/app"
     networks:
       - service_network
       - frontend_network
