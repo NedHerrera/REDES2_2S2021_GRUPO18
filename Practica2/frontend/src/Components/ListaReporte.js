@@ -1,26 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Table, Container , Col, Row} from "react-bootstrap";
 import ModalReportes from "./ModalReporte";
+import axios  from 'axios';
+import Modal2 from "./Modal2";
 
 function ListaReporte() {
   const [reportes, setReportes] = useState([]);
-  const [reporte_actual, setReporteActual] = useState('');
+  const [reporte_actual, setReporteActual] = useState({});
   const [carnet, setCarnet] = useState("");
   const [modalShow, setModalShow] = React.useState(false);
 
   const getListaReportes = async () => {
-    let reportes = ["rep1", "rep2", "rep3"];
 
-    setReportes(reportes);
+    const res = await axios.get(`http://34.125.190.196:8080/api/get/reporte` ).then(
+          function (response) {
+              console.log(response.data);
+            setReportes(response.data.reportes);
+
+          }
+      );
   };
 
   useEffect(() => {
     getListaReportes();
-  });
+  },[]);
 
   const mostrarDescripcion = (reporte) =>{
-    setModalShow(true)
-    setReporteActual(reporte)
+
+    axios.get(`http://34.125.190.196:8080/api/get/reporte/${reporte.carnet}`)
+    .then(function(response){
+        setModalShow(true)
+
+        setReporteActual({
+          reporte: response.data.reportes[0],
+          servidor: response.data.mensaje
+        })
+    })
+
+    console.log(reporte_actual)
+
+  }
+
+  const filtrarReportes = () =>{
+    if(carnet == ''){
+      getListaReportes()
+    }else{
+      axios.get(`http://34.125.190.196:8080/api/get/reporte/${carnet}`)
+      .then(function(response){
+          setReportes(response.data.reportes)
+      }).catch(function(error){
+        alert('no se encontro ningun reporte')
+      })
+    }
+    
   }
 
   return (
@@ -37,7 +69,7 @@ function ListaReporte() {
               />
             </Col>
             <Col xs lg="2">
-              <Button variant="primary">Buscar</Button>
+              <Button variant="primary" onClick={filtrarReportes}>Buscar</Button>
             </Col>
           </Row>
         </Form>
@@ -47,7 +79,7 @@ function ListaReporte() {
             <tr>
               <th>Carnet</th>
               <th>Nombre</th>
-              <th>Proyecto</th>
+              <th>Proyecto/Curso</th>
               <th>Fecha</th>
               <th>Servidor</th>
             </tr>
@@ -55,11 +87,11 @@ function ListaReporte() {
           <tbody>
             {reportes.map((reporte) => (
               <tr>
-                <th>{reporte}</th>
-                <th>nombre</th>
-                <th>Proyecto</th>
-                <th>fecha</th>
-                <th>serv</th>
+                <th>{reporte.carnet}</th>
+                <th>{reporte.nombre}</th>
+                <th>{reporte.curso}</th>
+                <th>{reporte.fecha}</th>
+                <th>{reporte.servidor}</th>
                 <th>
                     <Button onClick={()=> mostrarDescripcion(reporte)}> ver Descripcion </Button>
                 </th>
@@ -70,11 +102,12 @@ function ListaReporte() {
         </Table>
       </Container>
 
-       <ModalReportes
+        <ModalReportes
         show={modalShow}
         onHide={() => setModalShow(false)}
         reporte = {reporte_actual}
-      />
+        /> 
+       
     </div>
   );
 }
