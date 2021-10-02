@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Container, Col, Row, Card } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
+import { axios } from 'axios';
 
 function IngresoReporte() {
 
@@ -10,7 +11,7 @@ function IngresoReporte() {
     const [reporte, setReporte] = useState('');
 
     const enviar = async() => {
-        /*const res = await axios.post(`url`, {
+        const res = await axios.post(`http://loadbalancer:8080/api/create/`, {
             carnet:carnet,
             nombre:nombre, 
             curso:curso, 
@@ -20,7 +21,7 @@ function IngresoReporte() {
             function (response) {
                 console.log(response);
             }
-        );*/
+        );
         console.log("carnet: " + carnet);
         console.log("nombre: " + nombre);
         console.log("curso: " + curso);
