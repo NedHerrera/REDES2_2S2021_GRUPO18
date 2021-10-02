@@ -10,8 +10,6 @@ services:
         - "3000:3000"
     links:
       - loadbalancer
-    depends_on:
-      - loadbalancer
     networks:
       - service_network
       - frontend_network
