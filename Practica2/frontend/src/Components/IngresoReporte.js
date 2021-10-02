@@ -11,7 +11,7 @@ function IngresoReporte() {
     const [reporte, setReporte] = useState('');
 
     const enviar = async() => {
-        const res = await axios.post(`http://localhost:8080/api/create/reporte`, {
+        const res = await axios.post(`http://192.168.58.3:8080/api/create/reporte`, {
             carnet:carnet,
             nombre:nombre, 
             curso:curso, 
