@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile
     ports:
         - "3000:3000"
+    links:
+      - loadbalancer
     networks:
       - service_network
       - frontend_network
