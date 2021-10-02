@@ -75,4 +75,25 @@ const getReporte = (req: Request, res: Response, next: NextFunction) => {
        }); 
 };
 
-export default { createReporte, getAllReportes, getReporte };
+const getReporteID = (req: Request, res: Response, next: NextFunction) => {
+
+    let id = req.params['id'];
+
+    Reporte.findById(id)        
+        .lean()
+       .exec()
+       .then((reportes) => {
+           return res.status(202).json({
+               mensaje: `Solicitud atendida por el servidor ${servidor} :D`,
+               reportes: reportes,
+           });
+       })
+       .catch((error) => {
+           return res.status(404).json({
+               message: error.message,
+               error
+           });
+       }); 
+};
+
+export default { createReporte, getAllReportes, getReporte, getReporteID };
