@@ -11,7 +11,7 @@ services:
     links:
       - loadbalancer
     depends_on:
-      - frontservice
+      - loadbalancer
     networks:
       - service_network
       - frontend_network
