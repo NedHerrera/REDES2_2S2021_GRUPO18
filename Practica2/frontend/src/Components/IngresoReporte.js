@@ -13,7 +13,7 @@ function IngresoReporte() {
     let balancer = process.env.HOST || 'localhost';
 
     const enviar = async() => { 
-        const res = await axios.post(`http://${balancer}:8080/api/create/reporte`, {
+        const res = await axios.post(`http://loadbalancer:8080/api/create/reporte`, {
         //const res = await axios.post(`/api/create/reporte`, {    
             carnet:carnet,
             nombre:nombre, 
