@@ -9,19 +9,22 @@ function IngresoReporte() {
     const [nombre, setNombre] = useState('');
     const [curso, setCurso] = useState('');
     const [reporte, setReporte] = useState('');
+    var today  = new Date();
+    let fecha = today.toLocaleDateString("es-ES").toString()
 
-    let balancer = process.env.HOST || 'localhost';
 
     const enviar = async() => { 
-        const res = await axios.post(`http://${balancer}:8080/api/create/reporte`, {
+        console.log("ENTRA AQUI")
+        const res = await axios.post(`/loadbalancer/api/create/reporte`, {
         //const res = await axios.post(`/api/create/reporte`, {    
             carnet:carnet,
             nombre:nombre, 
-            curso:curso, 
-            fecha:"26/09/2021", 
+            curso: curso, 
+            fecha: fecha, 
             cuerpo:reporte
         } ).then(
             function (response) {
+                console.log("ELEMENTO GUARDADO CORRECTAMENTE! :D")
                 console.log(response);
             }
         );

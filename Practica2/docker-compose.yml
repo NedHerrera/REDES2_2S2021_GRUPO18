@@ -2,18 +2,30 @@ version: "3.5"
 
 services:
 
-  frontservice:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+  client:
     stdin_open: true
-    ports:
-        - "3000:80"
-    restart: unless-stopped
     environment:
-      - HOST=loadbalancer
-    links:
+      - CHOKIDAR_USEPOLLING=true
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    networks:
+      - service_network
+      - frontend_network
+
+  nginx:
+    depends_on:
       - loadbalancer
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx-frontend
+    ports:
+      - "3050:80"
     networks:
       - service_network
       - frontend_network
@@ -36,7 +48,7 @@ services:
     image : mongo:latest
     container_name: mongoservice  
     volumes:
-      - /home/data/db:/data/db:/data/db
+      - /home/data/db:/data/db
     ports:
       - 27017:27017
     restart: unless-stopped
@@ -145,8 +157,6 @@ services:
       - service_network
 
 networks:
-  redes2net:
-    driver: bridge
   
   db_network:
     driver: bridge
