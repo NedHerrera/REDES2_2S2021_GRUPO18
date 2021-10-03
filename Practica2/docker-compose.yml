@@ -9,9 +9,9 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./frontend
-    volumes:
-      - /app/node_modules
-      - ./frontend:/app
+    #volumes:
+    #  - /app/node_modules
+    #  - ./frontend:/app
     networks:
       - service_network
       - frontend_network
