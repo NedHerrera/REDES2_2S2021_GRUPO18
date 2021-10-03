@@ -21,7 +21,7 @@ export default class Modal2 extends Component {
 
     getData = () => {
         var self = this
-        axios.get(`http://34.125.190.196:8080/api/get/reporte/${this.props.reporte.carnet}`)
+        axios.get(`/loadbalancer/api/get/reporte/${this.props.reporte.carnet}`)
         .then(function(response){
 
             self.setState({
