@@ -27,12 +27,12 @@ function ListaReporte() {
 
   const mostrarDescripcion = (reporte) =>{
 
-    axios.get(`/loadbalancer/api/get/reporte/${reporte.carnet}`)
+    axios.get(`/loadbalancer/api/get/reporte/id/${reporte._id}`)
     .then(function(response){
         setModalShow(true)
-
+        console.log(response)
         setReporteActual({
-          reporte: response.data.reportes[0],
+          reporte: response.data.reportes,
           servidor: response.data.mensaje
         })
     })
