@@ -36,7 +36,7 @@ services:
     image : mongo:latest
     container_name: mongoservice  
     volumes:
-      - /home/data/db:/data/db:/data/db
+      - /home/data/db:/data/db
     ports:
       - 27017:27017
     restart: unless-stopped
