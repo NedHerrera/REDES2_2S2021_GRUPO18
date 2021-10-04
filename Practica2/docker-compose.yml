@@ -33,7 +33,7 @@ services:
   loadbalancer:
     build: ./nginx
     ports:
-      - "8080:8080"
+      - "8080"
     restart: always
     depends_on:
       - api-201602625
@@ -50,7 +50,7 @@ services:
     volumes:
       - /home/data/db:/data/db
     ports:
-      - 27017:27017
+      - "27017"
     restart: unless-stopped
     networks:
       - db_network
@@ -64,7 +64,7 @@ services:
       args:
         - API_PORT=3001
     ports:
-     - 3001:3001
+     - "3001"
     links:
       - mongoservice
     depends_on:
@@ -89,7 +89,7 @@ services:
       args:
         - API_PORT=3002
     ports:
-     - 3002:3002
+     - "3002"
     links:
       - mongoservice
     depends_on:
@@ -114,7 +114,7 @@ services:
       args:
         - API_PORT=3003
     ports:
-     - 3003:3003
+     - "3003"
     links:
       - mongoservice
     depends_on:
@@ -139,7 +139,7 @@ services:
       args:
         - API_PORT=3004
     ports:
-     - 3004:3004
+     - "3004"
     links:
       - mongoservice
     depends_on:
