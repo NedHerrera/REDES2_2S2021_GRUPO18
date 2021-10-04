@@ -1,0 +1,180 @@
+version: "3.5"
+
+services:
+
+  client:
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    build:
+      dockerfile: Dockerfile
+      context: ./frontend
+    #volumes:
+    #  - /app/node_modules
+    #  - ./frontend:/app
+    networks:
+      - service_network
+      - frontend_network
+
+  nginx:
+    depends_on:
+      - loadbalancer
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx-frontend
+    ports:
+      - "3050:80"
+    networks:
+      - service_network
+      - frontend_network
+
+  loadbalancer:
+    build: ./nginx
+    ports:
+      - "8080"
+    restart: always
+    depends_on:
+      - api-201602625
+      - api-201602986
+      - api-201602870
+      - api-199911132
+    networks:
+      - service_network
+      - frontend_network
+
+  mongoservice:
+    image : mongo:latest
+    container_name: mongoservice  
+    volumes:
+      - /home/data/db:/data/db
+    ports:
+      - "27017"
+    restart: unless-stopped
+    networks:
+      - db_network
+      - service_network
+
+  api-201602625:
+    container_name: api-201602625
+    build:
+      context: ./API
+      dockerfile: Dockerfile
+      args:
+        - API_PORT=3001
+    ports:
+     - "3001"
+    links:
+      - mongoservice
+    depends_on:
+      - mongoservice
+    restart: unless-stopped
+    environment:
+      - FIRMA=201602625
+      - SERVER_HOSTNAME=0.0.0.0
+      - SERVER_PORT=3001
+      - MONGO_HOST=mongoservice
+      - MONGO_PORT=27017
+      - db_retry_time=2000
+    networks:
+      - service_network
+      - db_network
+
+  api-201602986:
+    container_name: api-201602986
+    build:
+      context: ./API
+      dockerfile: Dockerfile
+      args:
+        - API_PORT=3002
+    ports:
+     - "3002"
+    links:
+      - mongoservice
+    depends_on:
+      - mongoservice
+    restart: unless-stopped
+    environment:
+      - FIRMA=201602986
+      - SERVER_HOSTNAME=0.0.0.0
+      - SERVER_PORT=3002
+      - MONGO_HOST=mongoservice
+      - MONGO_PORT=27017
+      - db_retry_time=2000
+    networks:
+      - db_network
+      - service_network
+
+  api-201602870:
+    container_name: api-201602870
+    build:
+      context: ./API
+      dockerfile: Dockerfile
+      args:
+        - API_PORT=3003
+    ports:
+     - "3003"
+    links:
+      - mongoservice
+    depends_on:
+      - mongoservice
+    restart: unless-stopped
+    environment:
+      - FIRMA=201602870
+      - SERVER_HOSTNAME=0.0.0.0
+      - SERVER_PORT=3003
+      - MONGO_HOST=mongoservice
+      - MONGO_PORT=27017
+      - db_retry_time=2000
+    networks:
+      - db_network
+      - service_network
+
+  api-199911132:
+    container_name: api-199911132
+    build:
+      context: ./API
+      dockerfile: Dockerfile
+      args:
+        - API_PORT=3004
+    ports:
+     - "3004"
+    links:
+      - mongoservice
+    depends_on:
+      - mongoservice
+    restart: unless-stopped
+    environment:
+      - FIRMA=199911132
+      - SERVER_HOSTNAME=0.0.0.0
+      - SERVER_PORT=3004
+      - MONGO_HOST=mongoservice
+      - MONGO_PORT=27017
+      - db_retry_time=2000
+    networks:
+      - db_network
+      - service_network
+
+networks:
+  
+  db_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 10.10.18.0/24
+       
+  service_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 172.35.78.0/24
+       
+  frontend_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 192.168.58.0/24
