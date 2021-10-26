@@ -3,12 +3,16 @@ import { v4 as uuid } from 'uuid';
 import { connect } from '../database';
 import { aws_keys } from '../../keys'
 import { Asistencia } from '../interfaces/asistencia.interface';
+import dotenv from 'dotenv';
+dotenv.config();
 import AWS from 'aws-sdk';
 const s3 = new AWS.S3(aws_keys.s3);
-//GET ALL USERS
+const servidor = process.env.FIRMA || 'desconocido';
+
+//GET ALL ASISTENCIA
 export async function getAllAsistencias(req: Request, res: Response): Promise<Response | void> {
     try {
-        let servidor = process.env.FIRMA || 'desconocido';
+        
         const conn = await connect();
         const asistencia = await conn.query('SELECT * FROM Asistencia');
         res.status(202);
@@ -27,10 +31,10 @@ export async function getAllAsistencias(req: Request, res: Response): Promise<Re
     }
 }
 
-//GET REPORT BY CARNET
+//GET ASISTENCIA BY CARNET
 export async function getAsistenciasCarnet(req: Request, res: Response): Promise<Response | void> {
     try {
-        let servidor = process.env.FIRMA || 'desconocido';
+        
         const conn = await connect();
         const asistencia: Array<any> = await conn.query('SELECT * FROM Asistencia Where carnet = ?', [req.params['carnet']]);
         res.status(202);
@@ -49,10 +53,10 @@ export async function getAsistenciasCarnet(req: Request, res: Response): Promise
     }
 }
 
-//GET REPORT BY ID
+//GET ASISTENCIA BY ID
 export async function getAsistenciasID(req: Request, res: Response): Promise<Response | void> {
     try {
-        let servidor = process.env.FIRMA || 'desconocido';
+        
         const conn = await connect();
         const asistencia: Array<any> = await conn.query('SELECT * FROM Asistencia Where idEvento = ?', [req.params['id']]);
         res.status(202);
@@ -71,42 +75,46 @@ export async function getAsistenciasID(req: Request, res: Response): Promise<Res
     }
 }
 
-//CREATE NEW USER
+//CREATE NEW ASISTENCIA
 export async function createAsistencia(req: Request, res: Response):Promise<Response | void> {
     try {
+
+        let { carnet, estudiante, evento, idEvento, fecha, image} = req.body;
         
         const conn = await connect();   
-        let servidor = process.env.FIRMA || 'desconocido';
         
-        const data = req.body;
-
+     
         var result = "";
 
-        if (data.image != undefined && data.image.toString() != ""){
+        if (image != undefined && image.toString() != ""){
 
             var nombrei = "fotos/" + uuid() + ".jpg";
         
+        
+        let data = image.toString()
+        data = data.replace(/^data:image\/\w+;base64,/, "")
+        
         //se convierte la base64 a bytes
-        let buff = Buffer.from(data.image,'base64');
+        let buff = Buffer.from(data,'base64');
 
         let bucket = process.env.BUCKET_NAME || 'desconocido';
-        let bucketURL = process.env.BUCKET_URL || 'desconocido';    
+        let region = process.env.AWS_REGION || 'desconocido';
+        let bucketURL = `https://${bucket}.s3.${region}.amazonaws.com/${nombrei}`
 
         const params = {
           Bucket: bucket,
           Key: nombrei,
           Body: buff,
+          ContentEncoding: 'base64',
           ContentType: "image",
           ACL: 'public-read'
         };
         s3.putObject(params).promise();
-        result = bucketURL + nombrei;
-
+        result = bucketURL;
         }
 
         let imageURL = result
-        let { carnet, estudiante, evento, idEvento, fecha } = req.body;
-        
+                
         const newReport: Asistencia = {
             carnet, 
             estudiante, 

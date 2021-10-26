@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { createAsistencia, getAsistenciasID, getAsistenciasCarnet, getAllAsistencias } from '../controllers/report.controller'
+import { createAsistencia, getAsistenciasID, getAsistenciasCarnet, getAllAsistencias } from '../controllers/asistencia.controller'
 
 const router = Router();
 

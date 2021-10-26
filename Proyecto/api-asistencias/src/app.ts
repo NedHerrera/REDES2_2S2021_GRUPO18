@@ -1,5 +1,7 @@
 import express, { Application } from 'express';
 import morgan from 'morgan';
+import cors from 'cors'
+import bodyParser from "body-parser";
 
 // Routes
 import IndexRoutes from './routes/index.routes';
@@ -22,8 +24,12 @@ export class App{
     }
 
     middlewares(){
+        let corsOptions = { origin: true, optionsSuccessStatus: 200 };
         this.app.use(morgan('dev'));
-        this.app.use(express.json());
+        this.app.use(cors(corsOptions));
+        //this.app.use(express.json({limit: '50mb'}));
+        this.app.use(bodyParser.json({ limit: '50mb' }));
+        this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
     }
     
     routes(){
