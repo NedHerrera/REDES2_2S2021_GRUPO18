@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { v4 as uuid } from 'uuid';
 import { connect } from '../database';
-import { aws_keys } from '../../keys'
+import { aws_keys } from '../keys'
 import { Asistencia } from '../interfaces/asistencia.interface';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -18,7 +18,7 @@ export async function getAllAsistencias(req: Request, res: Response): Promise<Re
         res.status(202);
         return res.status(202).json({
             mensaje: `Solicitud atendida por el servidor ${servidor} :D`,
-            reportes: asistencia[0],
+            asistencias: asistencia[0],
         });
     }
     catch (e) {
@@ -40,7 +40,7 @@ export async function getAsistenciasCarnet(req: Request, res: Response): Promise
         res.status(202);
         return res.json({
             mensaje: `Solicitud atendida por el servidor ${servidor} :D`,
-            reportes: asistencia[0],
+            asistencias: asistencia[0],
         });
     }
     catch (e) {
@@ -62,7 +62,7 @@ export async function getAsistenciasID(req: Request, res: Response): Promise<Res
         res.status(202);
         return res.json({
             mensaje: `Solicitud atendida por el servidor ${servidor} :D`,
-            reportes: asistencia[0],
+            asistencias: asistencia[0],
         });
     }
     catch (e) {
@@ -80,17 +80,12 @@ export async function createAsistencia(req: Request, res: Response):Promise<Resp
     try {
 
         let { carnet, estudiante, evento, idEvento, fecha, image} = req.body;
-        
-        const conn = await connect();   
-        
-     
-        var result = "";
+        const conn = await connect();              
+        let result = "";
 
         if (image != undefined && image.toString() != ""){
 
-            var nombrei = "fotos/" + uuid() + ".jpg";
-        
-        
+        let nombrei = "fotos/" + uuid() + ".jpg";
         let data = image.toString()
         data = data.replace(/^data:image\/\w+;base64,/, "")
         
@@ -115,7 +110,7 @@ export async function createAsistencia(req: Request, res: Response):Promise<Resp
 
         let imageURL = result
                 
-        const newReport: Asistencia = {
+        const newAsistencia: Asistencia = {
             carnet, 
             estudiante, 
             evento, 
@@ -125,11 +120,11 @@ export async function createAsistencia(req: Request, res: Response):Promise<Resp
             imageURL
         }
 
-        await conn.query('INSERT INTO Asistencia SET ?', [newReport]);
+        await conn.query('INSERT INTO Asistencia SET ?', [newAsistencia]);
         res.status(202);
         return res.json({
             mensaje: `Solicitud atendida por el servidor ${servidor} :D`,
-            reporte: newReport
+            asistencia: newAsistencia
         });
     
     } catch (e) {
