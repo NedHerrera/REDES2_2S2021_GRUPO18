@@ -7,7 +7,7 @@ import ListaAsistenciaIdEvento from './Components/ListaAsistenciaIdEvento';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/REDES2_2S2021_GRUPO18">
 
 <Navbar bg="dark" variant="dark">
     <Container>

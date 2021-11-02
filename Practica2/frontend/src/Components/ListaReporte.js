@@ -12,7 +12,7 @@ function ListaReporte() {
 
   const getListaReportes = async () => {
 
-    const res = await axios.get(`/loadbalancer/api/get/reporte` ).then(
+    const res = await axios.get(`./loadbalancer/api/get/reporte` ).then(
           function (response) {
               console.log(response.data);
             setReportes(response.data.reportes);
@@ -27,7 +27,7 @@ function ListaReporte() {
 
   const mostrarDescripcion = (reporte) =>{
 
-    axios.get(`/loadbalancer/api/get/reporte/id/${reporte._id}`)
+    axios.get(`./loadbalancer/api/get/reporte/id/${reporte._id}`)
     .then(function(response){
         setModalShow(true)
         console.log(response)
@@ -45,7 +45,7 @@ function ListaReporte() {
     if(carnet == ''){
       getListaReportes()
     }else{
-      axios.get(`/loadbalancer/api/get/reporte/${carnet}`)
+      axios.get(`./loadbalancer/api/get/reporte/${carnet}`)
       .then(function(response){
           setReportes(response.data.reportes)
       }).catch(function(error){
