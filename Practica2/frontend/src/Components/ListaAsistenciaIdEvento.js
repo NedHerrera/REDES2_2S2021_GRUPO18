@@ -12,7 +12,7 @@ function ListaAsistenciaIdEvento() {
 
     const getListaAsistencias = async () => {
   
-      const res = await axios.get(`./loadbalancer/api/get/asistencia` ).then(
+      const res = await axios.get(`https://api.redes2grupo18.tk/api/get/asistencia` ).then(
             function (response) {
               setMensajeServidor(response.data.mensaje);
               setShow(true)
@@ -32,7 +32,7 @@ function ListaAsistenciaIdEvento() {
       }else{
       setShow(true)
 
-        const res = await axios.get(`./loadbalancer/api/get/asistencia/id/${idEvento}` ).then(
+        const res = await axios.get(`https://api.redes2grupo18.tk/api/get/asistencia/id/${idEvento}` ).then(
           function (response) {
             setMensajeServidor(response.data.mensaje);
             setShow(true)
@@ -51,7 +51,7 @@ function ListaAsistenciaIdEvento() {
       }else{
       
 
-        const res = await axios.get(`./loadbalancer/api/get/asistencia/${carnet}` ).then(
+        const res = await axios.get(`https://api.redes2grupo18.tk/api/get/asistencia/${carnet}` ).then(
           function (response) {
             setMensajeServidor(response.data.mensaje);
             setShow(true)

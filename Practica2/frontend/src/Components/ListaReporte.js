@@ -12,7 +12,7 @@ function ListaReporte() {
 
   const getListaReportes = async () => {
 
-    const res = await axios.get(`./loadbalancer/api/get/reporte` ).then(
+    const res = await axios.get(`https://api.redes2grupo18.tk/api/get/reporte` ).then(
           function (response) {
               console.log(response.data);
             setReportes(response.data.reportes);
@@ -27,17 +27,17 @@ function ListaReporte() {
 
   const mostrarDescripcion = (reporte) =>{
 
-    axios.get(`./loadbalancer/api/get/reporte/id/${reporte._id}`)
+    axios.get(`https://api.redes2grupo18.tk/api/get/reporte/id/${reporte.idReport}`)
     .then(function(response){
         setModalShow(true)
         console.log(response)
         setReporteActual({
-          reporte: response.data.reportes,
+          reporte: response.data.reportes[0],
           servidor: response.data.mensaje
         })
     })
 
-    console.log(reporte_actual)
+    //console.log(reporte_actual)
 
   }
 
@@ -45,7 +45,7 @@ function ListaReporte() {
     if(carnet == ''){
       getListaReportes()
     }else{
-      axios.get(`./loadbalancer/api/get/reporte/${carnet}`)
+      axios.get(`https://api.redes2grupo18.tk/api/get/reporte/${carnet}`)
       .then(function(response){
           setReportes(response.data.reportes)
       }).catch(function(error){

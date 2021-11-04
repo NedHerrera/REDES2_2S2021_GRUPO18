@@ -17,7 +17,7 @@ function Asistencia() {
 
     const enviar = async() => { 
         console.log("ENTRA AQUI")
-        const res = await axios.post(`./loadbalancer/api/create/asistencia`, {
+        const res = await axios.post(`https://api.redes2grupo18.tk/api/create/asistencia`, {
         //const res = await axios.post(`/api/create/reporte`, {    
             carnet:carnet,
             estudiante:nombre, 
