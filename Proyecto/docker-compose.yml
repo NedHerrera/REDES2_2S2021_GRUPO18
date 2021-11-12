@@ -1,0 +1,31 @@
+version: "3.5"
+
+services:
+
+  api-201602625:
+    container_name: api-201602625
+    build:
+      context: ./api-proyecto2
+      dockerfile: Dockerfile
+      args:
+        - API_PORT=5050
+    environment:
+      - FIRMA=201602625
+      - PORT=5050
+    env_file:
+      - ./api-proyecto2/.env
+    ports:
+      - "5050:5050"
+    restart: unless-stopped
+    networks:
+      - service_network
+
+networks:
+       
+  service_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 172.35.78.0/24
+       
